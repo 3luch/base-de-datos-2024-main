@@ -19,7 +19,15 @@ const getAlbumes = async (_, res) => {
             ...
         ]
     */
-};
+   try {
+    const resultado = await conn .query("SELECT id, nombre, artista FROM albumes")
+    return resultado
+   }
+   catch(error) {
+console.error(error);
+res.status(500).json({ message: "Error"});
+   }
+   };
 
 const getAlbum = async (req, res) => {
     // Completar con la consulta que devuelve un album por id
@@ -32,6 +40,14 @@ const getAlbum = async (req, res) => {
             "nombre_artista": "Nombre del artista"
         }
     */
+   try{
+    const[results, fields] = await conn.query("SELECT id, nombre, artista FROM albumes where id = ?",
+    [req] );
+    return (resultado);
+   }catch(err)
+   {
+    console.log(err);
+   }
 };
 
 const createAlbum = async (req, res) => {
@@ -44,6 +60,14 @@ const createAlbum = async (req, res) => {
             "artista": "Id del artista"
         }
     */
+        try{
+            const[results, fields] = await conn.query("INSERT INTO `albumes` (nombre, artista) VALUES (?, ?)",
+            [nombre, artista] );
+            return (resultado);
+           }catch(err)
+           {
+            console.log(err);
+           }
 };
 
 const updateAlbum = async (req, res) => {
@@ -56,11 +80,27 @@ const updateAlbum = async (req, res) => {
             "artista": "Id del artista"
         }
     */
+        try{
+            const[results, fields] = await conn.query("UPDATE albumes SET nombre = ?, artista = ? where id = ?",
+            [nombre, artista, id] );
+            return (resultado);
+           }catch(err)
+           {
+            console.log(err);
+           }
 };
 
 const deleteAlbum = async (req, res) => {
     // Completar con la consulta que elimina un album
     // Recordar que los parámetros de una consulta DELETE se encuentran en req.params
+    try{
+        const[results, fields] = await conn.query("DELETE albumes",
+        [req] );
+        return (resultado);
+       }catch(err)
+       {
+        console.log(err);
+       }
 };
 
 const getCancionesByAlbum = async (req, res) => {
