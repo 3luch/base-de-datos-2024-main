@@ -8,4 +8,4 @@ export const config = {
     password: "eeng2007" ,
     host: "localhost" , 
     database: "tp4"
-}
+}   
