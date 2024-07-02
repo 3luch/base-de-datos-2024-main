@@ -5,7 +5,7 @@ export const conn = await mysql.createConnection({
 });
 export const config = {
     user: "root" ,
-    password: "rootroot" ,
+    password: "eeng2007" ,
     host: "localhost" , 
     database: "tp4"
 }

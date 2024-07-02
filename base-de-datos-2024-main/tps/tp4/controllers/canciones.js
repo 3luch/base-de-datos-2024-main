@@ -1,4 +1,4 @@
-import { conn } from "../db.js";
+import { conn } from "../../db.js";
 
 const getCanciones = async (_, res) => {
     // Completar con la consulta que devuelve todas las canciones
@@ -25,6 +25,15 @@ const getCanciones = async (_, res) => {
             ...
         ]
     */
+        try
+        {
+            const[results,fields] = await conn.query("SELECT * FROM canciones");
+            res.json(results);
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
 };
 
 const getCancion = async (req, res) => {
@@ -41,6 +50,16 @@ const getCancion = async (req, res) => {
             "reproducciones": "Reproducciones de la canción"
         }
     */
+        try
+        {
+            const[results,fields] = await conn.query
+            ('SELECT * FROM canciones WHERE id = ?',[req.params.id]);
+            res.json(results);
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
 };
 
 const createCancion = async (req, res) => {
@@ -54,6 +73,17 @@ const createCancion = async (req, res) => {
             "duracion": "Duración de la canción",
         }
     */
+        try
+        {
+            const[results,fields] = await conn.query
+            ('INSERT INTO canciones (id, nombre, album, duracion, reproducciones) VALUES (?, ?, ?, ?, ?)',
+                [req.params.id, req.params.nombre, req.params.album, req.params.duracion, req.params.reproducciones]);
+            res.json(results);
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
     // (Reproducciones se inicializa en 0)
 };
 
@@ -69,16 +99,49 @@ const updateCancion = async (req, res) => {
         }
     */
     // (Reproducciones no se puede modificar con esta consulta)
+    try
+        {
+            const[results,fields] = await conn.query
+            ('UPDATE artistas SET nombre = ?, album = ?, duración = ? WHERE id = ?',
+            [req.params.nombre, req.params.album, req.params.duracion, req.params.id]);
+            res.json(results);
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
 };
 
 const deleteCancion = async (req, res) => {
     // Completar con la consulta que elimina una canción
     // Recordar que los parámetros de una consulta DELETE se encuentran en req.params
+    try
+        {
+            const[results,fields] = await conn.query
+            ('DELETE FROM canciones WHERE id = ?',
+            [req.params.id]);
+            res.json(results);
+        }
+        catch(err)
+        {
+            console.log(err);
+        }
 };
 
 const reproducirCancion = async (req, res) => {
     // Completar con la consulta que aumenta las reproducciones de una canción
     // En este caso es una consulta PUT, pero no recibe ningún parámetro en el body, solo en los params
+    try
+    {
+        const[results,fields] = await conn.query
+        ('UPDATE canciones SET reproducciones = reproducciones++ WHERE id = ?',
+        [req.params.id]);
+        res.json(results);
+    }
+    catch(err)
+    {
+        console.log(err);
+    }
 };
 
 const canciones = {
